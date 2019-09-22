@@ -1,0 +1,78 @@
+#include <iostream>
+using namespace std;
+
+void interArrayInversion(pair<int, int> arr[], int l, int m, int r, int brr[]){
+    int n1 = m - l + 1;
+    int n2 = r - m;
+    
+    pair<int, int> left[n1];
+    pair<int, int> right[n2];
+    
+    for(int i = 0; i < n1; i ++)
+        left[i] = arr[l + i];
+    for(int i = 0; i < n2; i ++)
+        right[i] = arr[m + i + 1];
+    
+    int i = 0, j = 0, c = l;
+    
+    while(i < n1 && j < n2){
+        if(left[i] < right[j]){
+            arr[c] = left[i];
+            brr[arr[c].second] = brr[arr[c].second] + j;
+            i ++;
+            c ++;
+        } else {
+            arr[c] = right[j];
+            j ++;
+            c ++;
+        }
+    }
+    
+    if(i == n1){
+        for(;j < n2; j ++){
+            arr[c] = right[j];
+            c ++;
+        }
+    }
+    
+    if(j == n2){
+        for(; i < n1; i ++){
+            arr[c] = left[i];
+            brr[arr[c].second] = brr[arr[c].second] + n2;
+            c ++;
+        }
+    }
+}
+
+void findInversion(int l , int h, pair<int, int> arr[], int brr[]){
+    if(l == h){
+        return;
+    }
+    
+    int m = l + (h - l) / 2;
+    
+    
+    
+    findInversion(l , m, arr, brr);
+    findInversion(m + 1 , h, arr, brr);
+    interArrayInversion(arr, l, m, h, brr);
+}
+
+int main()  {
+    int n;
+    cin >> n;
+    pair<int, int> arr[n];
+    int brr[n];
+    for(int i = 0; i < n; i++){
+        int x;
+        cin >> x;
+        arr[i] = make_pair(x, i);
+        brr[i] = 0;
+    }
+    
+    findInversion(0, n - 1, arr, brr);
+    for (int i = 0; i < n; i ++) {
+        cout << brr[i] << " ";
+    }
+    return 0;
+}
