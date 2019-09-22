@@ -17,7 +17,7 @@ int interArrayInversion(int arr[], int l, int m, int r){
     int icount = 0;
     
     while(i < n1 && j < n2){
-        if(left[i] < right[j]){
+        if(left[i] <= right[j]){
             icount += j;
             arr[c] = left[i];
             i ++;
