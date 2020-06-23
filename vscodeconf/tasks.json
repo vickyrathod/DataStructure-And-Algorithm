@@ -1,0 +1,22 @@
+{
+    "tasks": [
+        {
+            "type": "che",
+            "label": "build",
+            "command": "g++ -g segementtree.cpp -o segementtree.out && echo \"Build complete\"",
+            "target": {
+                "workingDir": "${CHE_PROJECTS_ROOT}/DataStructure-And-Algorithm/segementTree/",
+                "component": "cpp-dev"
+            }
+        },
+        {
+            "type": "che",
+            "label": "run",
+            "command": "./segementtree.out",
+            "target": {
+                "workingDir": "${CHE_PROJECTS_ROOT}/DataStructure-And-Algorithm/segementTree/",
+                "component": "cpp-dev"
+            }
+        }
+    ]
+}
