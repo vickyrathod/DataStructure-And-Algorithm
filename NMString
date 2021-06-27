@@ -1,0 +1,56 @@
+#include <iostream>
+#include <string>
+#include <climits>
+using namespace std;
+
+int solve(string pat, int ind, int last, int ar[], int n, int ansTill) {
+    if(ind >= n) {
+        return ansTill;
+    }
+    bool f = true;
+    if('n' == pat[ind])
+       f = false; 
+    
+    if(f) {
+        int ans = INT_MAX;
+        int ansInd = last - 1;
+        for(int i = last - 1; i > 0; i --) {
+            if(ar[i] == 1)
+                continue;
+            ar[i] = 1;
+            int tmp = solve(pat, ind + 1, i, ar, n, ansTill * 10 + i);
+            if(tmp < ans) {
+                ans = tmp;
+                ansInd = i;
+            }
+            ar[i] = 0;
+        }
+        return ans;
+    } else {
+        int ans = INT_MAX;
+        int ansInd = last + 1;
+        if(ind == 0 && last == 10)
+            last = 0;
+        for(int i = last + 1; i < 10; i ++) {
+            if(ar[i] == 1)
+                continue;
+            ar[i] = 1;
+            int tmp = solve(pat, ind + 1, i, ar, n, ansTill * 10 + i);
+            if(tmp < ans) {
+                ans = tmp;
+                ansInd = i;
+            }
+            ar[i] = 0;
+        }
+        return ans;
+    }
+}
+
+int main() {
+	
+	string s = "mmmmmm";
+	int ar[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+	cout << solve(s[0]+s, 0, 10, ar, s.size() + 1, 0) << endl;
+	
+	return 0;
+}
