@@ -14,16 +14,18 @@ int solve(string pat, int ind, int last, int ar[], int n, int ansTill) {
     if(f) {
         int ans = INT_MAX;
         int ansInd = last - 1;
-        for(int i = last - 1; i > 0; i --) {
+        if(last <= 1)
+            return -1;
+        for(int i = 1; i < last; i ++ ) {
             if(ar[i] == 1)
                 continue;
             ar[i] = 1;
-            int tmp = solve(pat, ind + 1, i, ar, n, ansTill * 10 + i);
-            if(tmp < ans) {
-                ans = tmp;
-                ansInd = i;
-            }
+            ans = solve(pat, ind + 1, i, ar, n, ansTill * 10 + i);
             ar[i] = 0;
+            if(ans == -1)
+                continue;
+            else
+                break;
         }
         return ans;
     } else {
@@ -31,15 +33,18 @@ int solve(string pat, int ind, int last, int ar[], int n, int ansTill) {
         int ansInd = last + 1;
         if(ind == 0 && last == 10)
             last = 0;
+        if(last >= 9)
+            return -1;
         for(int i = last + 1; i < 10; i ++) {
             if(ar[i] == 1)
                 continue;
             ar[i] = 1;
-            int tmp = solve(pat, ind + 1, i, ar, n, ansTill * 10 + i);
-            if(tmp < ans) {
-                ans = tmp;
-                ansInd = i;
-            }
+            ans = solve(pat, ind + 1, i, ar, n, ansTill * 10 + i);
+            ar[i] = 0;
+            if(ans == -1)
+                continue;
+            else
+                break;
             ar[i] = 0;
         }
         return ans;
@@ -48,7 +53,7 @@ int solve(string pat, int ind, int last, int ar[], int n, int ansTill) {
 
 int main() {
 	
-	string s = "mmmmmm";
+	string s = "mm";
 	int ar[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 	cout << solve(s[0]+s, 0, 10, ar, s.size() + 1, 0) << endl;
 	
